@@ -13,7 +13,7 @@ ENV GPU=false
 ENV SMP=true
 ENV PASSKEY=
 
-RUN useradd -ms /bin/bash folder
+RUN useradd --system folder
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
         curl adduser bzip2 ca-certificates &&\
@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         apt-get autoremove -y &&\
         rm --recursive --verbose --force /tmp/* /var/log/* /var/lib/apt/
         
-ADD config.xml /etc/fahclient/
+COPY --chown=folder:folder config.xml /etc/fahclient/
 RUN chown folder:folder /etc/fahclient/config.xml
 RUN sed -i -e "s/{{USERNAME}}/$USERNAME/;s/{{TEAM}}/$TEAM/;s/{{PASSKEY}}/$PASSKEY/;s/{{POWER}}/$POWER/;s/{{GPU}}/$GPU/" /etc/fahclient/config.xml
 
@@ -37,4 +37,4 @@ USER folder
 WORKDIR /home/folder
 
 ENTRYPOINT ["FAHClient", "--web-allow=0/0:7396", "--allow=0/0:36330"]
-CMD ["--smp=$SMP"]
+CMD ["--smp=${SMP}"]
