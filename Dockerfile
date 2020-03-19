@@ -16,15 +16,18 @@ ENV PASSKEY=
 RUN useradd --system folder
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
-        curl adduser bzip2 ca-certificates &&\
-        curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v${FAH_VERSION_MAJOR}/fahclient_${FAH_VERSION_MINOR}_amd64.deb &&\
-        mkdir -p /etc/fahclient/ &&\
-        dpkg --install /tmp/fah.deb &&\
-        apt-get remove -y curl &&\
+        curl adduser bzip2 ca-certificates
+       
+RUN mkdir -p /etc/fahclient/
+COPY --chown=folder:folder config.xml /etc/fahclient/ 
+
+RUN curl -o /tmp/fah.deb https://download.foldingathome.org/releases/public/release/fahclient/debian-stable-64bit/v${FAH_VERSION_MAJOR}/fahclient_${FAH_VERSION_MINOR}_amd64.deb &&\
+        dpkg --install /tmp/fah.deb
+        
+RUN apt-get remove -y curl &&\
         apt-get autoremove -y &&\
         rm --recursive --verbose --force /tmp/* /var/log/* /var/lib/apt/
         
-COPY --chown=folder:folder config.xml /etc/fahclient/
 RUN chown folder:folder /etc/fahclient/config.xml
 RUN sed -i -e "s/{{USERNAME}}/$USERNAME/;s/{{TEAM}}/$TEAM/;s/{{PASSKEY}}/$PASSKEY/;s/{{POWER}}/$POWER/;s/{{GPU}}/$GPU/" /etc/fahclient/config.xml
 
