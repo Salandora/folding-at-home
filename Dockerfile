@@ -13,7 +13,7 @@ ENV GPU=false
 ENV SMP=true
 ENV PASSKEY=
 
-RUN useradd --system folder
+RUN useradd -ms /bin/bash folder
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
         curl adduser bzip2 ca-certificates
