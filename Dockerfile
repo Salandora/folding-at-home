@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         rm --recursive --verbose --force /tmp/* /var/log/* /var/lib/apt/
         
 ADD config.xml /etc/fahclient/
-RUN chown fahclient:root /etc/fahclient/config.xml
+RUN chown folder:folder /etc/fahclient/config.xml
 RUN sed -i -e "s/{{USERNAME}}/$USERNAME/;s/{{TEAM}}/$TEAM/;s/{{PASSKEY}}/$PASSKEY/;s/{{POWER}}/$POWER/;s/{{GPU}}/$GPU/" /etc/fahclient/config.xml
 
 # Web viewer
