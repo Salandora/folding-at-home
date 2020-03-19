@@ -29,7 +29,7 @@ RUN apt-get remove -y curl &&\
         rm --recursive --verbose --force /tmp/* /var/log/* /var/lib/apt/
         
 RUN chown folder:folder /etc/fahclient/config.xml
-RUN sed -i -e "s/{{USERNAME}}/$USERNAME/;s/{{TEAM}}/$TEAM/;s/{{PASSKEY}}/$PASSKEY/;s/{{POWER}}/$POWER/;s/{{GPU}}/$GPU/" /etc/fahclient/config.xml
+RUN sed -i -e "s/{{USERNAME}}/$USERNAME/;s/{{TEAM}}/$TEAM/;s/{{PASSKEY}}/$PASSKEY/;s/{{POWER}}/$POWER/;s/{{SMP}}/$SMP/;s/{{GPU}}/$GPU/" /etc/fahclient/config.xml
 
 # Web viewer
 EXPOSE 7396
@@ -40,4 +40,3 @@ USER folder
 WORKDIR /home/folder
 
 ENTRYPOINT ["FAHClient", "--web-allow=0/0:7396", "--allow=0/0:36330"]
-CMD ["--smp=${SMP}"]
